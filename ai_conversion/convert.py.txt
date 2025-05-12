@@ -1,0 +1,34 @@
+import openai
+import os
+
+def load_dsl(file_path):
+    with open(file_path, 'r') as file:
+        return file.read()
+
+def load_prompt(template_path, dsl_code):
+    with open(template_path, 'r') as file:
+        template = file.read()
+    return template.replace("{teamcity_code}", dsl_code)
+
+def convert_to_yaml(prompt):
+    openai.api_key = os.getenv("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")
+    response = openai.ChatCompletion.create(
+        model="gpt-4",  # or use 'gpt-3.5-turbo' for faster results
+        messages=[
+            {"role": "system", "content": "You are an expert in DevOps CI/CD systems."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.2,
+        max_tokens=1500
+    )
+    return response.choices[0].message.content
+
+if __name__ == "__main__":
+    dsl_code = load_dsl("teamcity_dsl/buildType.kt")
+    prompt = load_prompt("ai_conversion/prompt_template.txt", dsl_code)
+    yaml_output = convert_to_yaml(prompt)
+
+    with open("converted_workflows/build.yml", "w") as out_file:
+        out_file.write(yaml_output)
+
+    print("✅ GitHub Actions YAML generated in: converted_workflows/build.yml")

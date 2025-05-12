@@ -1,0 +1,6 @@
+You are a DevOps assistant. Convert the following TeamCity Kotlin DSL script into an equivalent GitHub Actions YAML workflow.
+
+Input (TeamCity DSL):
+{teamcity_code}
+
+Output (GitHub Actions YAML):

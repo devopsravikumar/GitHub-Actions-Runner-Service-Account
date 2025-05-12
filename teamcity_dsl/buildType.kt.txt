@@ -1,0 +1,22 @@
+object Build : BuildType({
+    name = "Build Project"
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    steps {
+        powerShell {
+            name = "Build Step"
+            scriptMode = script {
+                content = "Write-Host 'Building Project...'"
+            }
+        }
+    }
+
+    triggers {
+        vcs {
+            branchFilter = "+:refs/heads/main"
+        }
+    }
+})
