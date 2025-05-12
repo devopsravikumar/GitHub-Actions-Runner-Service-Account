@@ -21,3 +21,8 @@ jobs:
         run: python ai_conversion/convert.py
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
